@@ -1,8 +1,6 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import {filterImageFromURL, deleteLocalFiles} from './util/util';
-import { Url } from 'url';
-import { url } from 'inspector';
 
 (async () => {
 
@@ -34,11 +32,11 @@ import { url } from 'inspector';
   //! END @TODO1
 
   app.get("/filteredimage", async (req: express.Request, res: express.Response) => {
-    let { image_url } = req.query;
-    if ( !image_url ) {
-      return res.status(400).send("image_url is required");
+    const imageUrl: string = req.query.image_url as string;
+    if (!imageUrl){
+      res.status(422).send('no image_url provided');
     }
-    filterImageFromURL(image_url)
+    filterImageFromURL(imageUrl)
     .then(filteredpath => {
       return res.status(200).sendFile(filteredpath, err => {
         if (!err) {
