@@ -38,7 +38,7 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
     }
     filterImageFromURL(imageUrl)
     .then(filteredpath => {
-      return res.status(200).sendFile(filteredpath, err => {
+      return res.sendFile(filteredpath, err => {
         if (!err) {
           let filesList: string[] = [filteredpath];
           deleteLocalFiles(filesList);
